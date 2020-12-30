@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>sling-bundle-parent</artifactId>
+        <version>38</version>
+        <relativePath />
+    </parent>
+
+    <groupId>pl.ds.websight</groupId>
+    <artifactId>websight-frontend-parent</artifactId>
+    <version>1</version>
+    <packaging>pom</packaging>
+
+    <organization>
+        <name>Dynamic Solutions sp. z o.o. sp. k.</name>
+        <url>https://ds.pl</url>
+    </organization>
+
+    <name>Dynamic Solutions Websight (Frontend Parent)</name>
+    <description>The parent project for Websight frontend modules</description>
+
+    <properties>
+        <node.version>v12.16.1</node.version>
+        <npm.version>6.13.4</npm.version>
+    </properties>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-remote-resources-plugin</artifactId>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>com.github.eirslett</groupId>
+                    <artifactId>frontend-maven-plugin</artifactId>
+                    <version>1.9.1</version>
+                    <executions>
+                        <execution>
+                            <id>install node and npm</id>
+                            <goals>
+                                <goal>install-node-and-npm</goal>
+                            </goals>
+                            <phase>generate-resources</phase>
+                            <configuration>
+                                <nodeVersion>${node.version}</nodeVersion>
+                                <npmVersion>${npm.version}</npmVersion>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>npm install</id>
+                            <goals>
+                                <goal>npm</goal>
+                            </goals>
+                            <configuration>
+                                <arguments>install</arguments>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>biz.aQute.bnd</groupId>
+                    <artifactId>bnd-maven-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>bnd-process</id>
+                            <goals>
+                                <goal>bnd-process</goal>
+                            </goals>
+                            <configuration>
+                                <bnd><![CDATA[
+                                        Bundle-Category: websight
+                                        Bundle-Developers: Dynamic Solutions sp. z o.o. sp. k.
+                                        Bundle-Description : ${Bundle-Name}
+                                        Bundle-Vendor: Dynamic Solutions sp. z o.o. sp. k.
+                                        Bundle-DocURL: https://confluence.ds.pl
+
+                                        # Entries defined at the Sling Parent level:
+                                        -exportcontents: ${removeall;${packages;VERSIONED};${packages;CONDITIONAL}}
+                                        -snapshot: SNAPSHOT
+                                        -noextraheaders: true
+                                    ]]></bnd>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>license-maven-plugin</artifactId>
+                    <version>1.8</version>
+                    <configuration>
+                        <generateBundle>true</generateBundle>
+                        <bundleLicensePath>META-INF/LICENSE</bundleLicensePath>
+                        <excludedScopes>test</excludedScopes>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>license-management</id>
+                            <goals>
+                                <goal>update-project-license</goal>
+                            </goals>
+                            <phase>process-sources</phase>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <!-- TODO remove once licensing policies are clear -->
+            <plugin>
+                <groupId>org.codehaus.groovy.maven</groupId>
+                <artifactId>gmaven-plugin</artifactId>
+                <version>1.0</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>
+                                import java.io.File;
+                                String fileName = 'LICENSE';
+                                File licenseFile = new File(fileName);
+                                File parentLicenseFile = new File("../" + fileName);
+                                boolean skipLicenseCheck = !(licenseFile.exists() || parentLicenseFile.exists());
+                                project.properties['skipLicenseCheck'] = String.valueOf(skipLicenseCheck);
+                            </source>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.rat</groupId>
+                <artifactId>apache-rat-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>ianal-maven-plugin</artifactId>
+                <configuration>
+                    <skip>${skipLicenseCheck}</skip>
+                    <requiredFiles>
+                        <file>LICENSE</file>
+                    </requiredFiles>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <url>https://artifactory.ds.pl/artifactory/libs-snapshot</url>
+        </snapshotRepository>
+        <repository>
+            <id>central</id>
+            <url>https://artifactory.ds.pl/artifactory/libs-release</url>
+        </repository>
+    </distributionManagement>
+
+    <profiles>
+        <profile>
+            <id>artifactory</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <repositories>
+                <repository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>central</id>
+                    <name>libs-release</name>
+                    <url>https://artifactory.ds.pl/artifactory/libs-release</url>
+                </repository>
+                <repository>
+                    <snapshots />
+                    <id>snapshots</id>
+                    <name>libs-snapshot</name>
+                    <url>https://artifactory.ds.pl/artifactory/libs-snapshot</url>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>central</id>
+                    <name>libs-release</name>
+                    <url>https://artifactory.ds.pl/artifactory/libs-release</url>
+                </pluginRepository>
+                <pluginRepository>
+                    <snapshots />
+                    <id>snapshots</id>
+                    <name>libs-snapshot</name>
+                    <url>https://artifactory.ds.pl/artifactory/libs-snapshot</url>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+    </profiles>
+
+  <scm>
+    <tag>1</tag>
+  </scm>
+</project>
