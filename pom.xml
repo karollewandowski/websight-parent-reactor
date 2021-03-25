@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>pl.ds.websight</groupId>
+  <artifactId>websight-parent-reactor</artifactId>
+  <version>2</version>
+  <packaging>pom</packaging>
+
+  <organization>
+    <name>Dynamic Solutions sp. z o.o. sp. k.</name>
+    <url>https://ds.pl</url>
+  </organization>
+
+  <name>WebSight Parent Reactor</name>
+  <description>The reactor pom to build all Websight parents</description>
+
+  <modules>
+    <module>websight-parent</module>
+    <module>websight-parent-bundle</module>
+    <module>websight-parent-package</module>
+    <module>websight-parent-frontend</module>
+  </modules>
+
+  <url>https://github.com/DS-WebSight/websight-parent-reactor</url>
+
+  <licenses>
+    <license>
+      <name>GNU Affero General Public License v3.0</name>
+      <url>https://github.com/DS-WebSight/websight-parent-reactor/blob/master/LICENSE</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Michał Cukierman</name>
+      <email>michal.cukierman@ds.pl</email>
+      <organization>Dynamic Solutions</organization>
+      <organizationUrl>https://www.ds.pl/</organizationUrl>
+    </developer>
+  </developers>
+
+  <scm>
+    <tag>HEAD</tag>
+    <connection>scm:git:git://github.com/DS-WebSight/websight-parent-reactor.git</connection>
+    <developerConnection>scm:git:ssh://github.com:DS-WebSight/websight-parent-reactor.git</developerConnection>
+    <url>https://github.com/DS-WebSight/websight-parent-reactor/tree/master</url>
+  </scm>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>3.0.0-M1</version>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
