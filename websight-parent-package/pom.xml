@@ -10,7 +10,7 @@
 
     <groupId>pl.ds.websight</groupId>
     <artifactId>websight-package-parent</artifactId>
-    <version>2</version>
+    <version>3</version>
     <packaging>pom</packaging>
 
     <organization>
@@ -18,8 +18,8 @@
         <url>https://ds.pl</url>
     </organization>
 
-    <name>Dynamic Solutions Websight (Package Parent)</name>
-    <description>The parent project for Websight vault package modules</description>
+    <name>Dynamic Solutions WebSight (Package Parent)</name>
+    <description>The parent project for WebSight vault package modules</description>
     <url>https://github.com/DS-WebSight/websight-parent-reactor</url>
 
     <licenses>
@@ -39,7 +39,7 @@
     </developers>
 
     <scm>
-        <tag>HEAD</tag>
+        <tag>3</tag>
         <connection>scm:git:git://github.com/DS-WebSight/websight-parent-reactor.git</connection>
         <developerConnection>scm:git:ssh://github.com:DS-WebSight/websight-parent-reactor.git</developerConnection>
         <url>https://github.com/DS-WebSight/websight-parent-reactor/tree/master</url>
@@ -134,7 +134,7 @@
                             <goal>sign</goal>
                         </goals>
                         <configuration>
-                            <skipNoKey>false</skipNoKey>
+                            <skipNoKey>true</skipNoKey>
                             <keyFile>${user.home}/.m2/sign-key-ds.asc</keyFile>
                         </configuration>
                     </execution>
@@ -199,16 +199,13 @@
 
         <profile>
             <id>artifactory</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <distributionManagement>
                 <snapshotRepository>
-                    <id>snapshots</id>
+                    <id>ds-snapshot</id>
                     <url>https://artifactory.ds.pl/artifactory/libs-snapshot</url>
                 </snapshotRepository>
                 <repository>
-                    <id>central</id>
+                    <id>ds-release</id>
                     <url>https://artifactory.ds.pl/artifactory/libs-release</url>
                 </repository>
             </distributionManagement>
@@ -217,13 +214,13 @@
                     <snapshots>
                         <enabled>false</enabled>
                     </snapshots>
-                    <id>central</id>
+                    <id>ds-release</id>
                     <name>libs-release</name>
                     <url>https://artifactory.ds.pl/artifactory/libs-release</url>
                 </repository>
                 <repository>
                     <snapshots />
-                    <id>snapshots</id>
+                    <id>ds-snapshot</id>
                     <name>libs-snapshot</name>
                     <url>https://artifactory.ds.pl/artifactory/libs-snapshot</url>
                 </repository>
@@ -233,13 +230,13 @@
                     <snapshots>
                         <enabled>false</enabled>
                     </snapshots>
-                    <id>central</id>
+                    <id>ds-release</id>
                     <name>libs-release</name>
                     <url>https://artifactory.ds.pl/artifactory/libs-release</url>
                 </pluginRepository>
                 <pluginRepository>
                     <snapshots />
-                    <id>snapshots</id>
+                    <id>ds-snapshot</id>
                     <name>libs-snapshot</name>
                     <url>https://artifactory.ds.pl/artifactory/libs-snapshot</url>
                 </pluginRepository>

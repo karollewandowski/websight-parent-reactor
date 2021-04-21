@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>pl.ds.websight</groupId>
   <artifactId>websight-parent-reactor</artifactId>
-  <version>2</version>
+  <version>3</version>
   <packaging>pom</packaging>
 
   <organization>
@@ -12,7 +12,7 @@
   </organization>
 
   <name>WebSight Parent Reactor</name>
-  <description>The reactor pom to build all Websight parents</description>
+  <description>The reactor pom to build all WebSight parents</description>
 
   <modules>
     <module>websight-parent</module>
@@ -40,7 +40,7 @@
   </developers>
 
   <scm>
-    <tag>HEAD</tag>
+    <tag>3</tag>
     <connection>scm:git:git://github.com/DS-WebSight/websight-parent-reactor.git</connection>
     <developerConnection>scm:git:ssh://github.com:DS-WebSight/websight-parent-reactor.git</developerConnection>
     <url>https://github.com/DS-WebSight/websight-parent-reactor/tree/master</url>
